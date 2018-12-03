@@ -60,7 +60,7 @@ Additionally, multiple scopes can be declared in the decorator.
 ### Custom serializers
 A custom serializer function can be specified to customize the resulting value.
 
-The function receives to parameters
+The function receives these parameters:
 1. The current value of the field being serialized
 2. The object being serialized
 
