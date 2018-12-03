@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2018",
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true,
+    "lib": ["es6", "dom"],
+    "experimentalDecorators": true
+  },
+  "include": ["src"],
+  "types": [
+    "node"
+  ],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

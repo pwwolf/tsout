@@ -1,0 +1,28 @@
+{
+  "name": "tsout",
+  "version": "1.0.0",
+  "description": "A TypeScript serialization library",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^23.3.10",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.3",
+    "ts-jest": "^23.10.5",
+    "ts-lint": "^4.5.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.1"
+  }
+}
