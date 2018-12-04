@@ -1,7 +1,11 @@
 {
   "name": "tsout",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A TypeScript serialization library",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pwwolf/tsout.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "jest --config jestconfig.json",
@@ -13,9 +17,11 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "author": "",
+  "author": "Patrick Wolf <patrick@wolfmail.io>",
   "license": "ISC",
   "dependencies": {},
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "jest": "^23.6.0",
