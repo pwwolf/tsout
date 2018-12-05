@@ -72,3 +72,12 @@ The function receives these parameters:
   })
   customSerializer: string;
 ```
+
+### Custom field name
+The name of the serialized field can be changed using the *name* option.
+
+```ts
+
+  @out({ name: 'userName' })
+  name: string;
+```

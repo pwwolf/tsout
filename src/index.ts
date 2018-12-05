@@ -12,6 +12,7 @@ type ScopeFieldMap = Map<
     string | symbol,
     {
       serializer?: serializeFunction;
+      name?: string;
     }
   >
 >;
@@ -19,6 +20,7 @@ type ScopeFieldMap = Map<
 type ResponseOptions = {
   scope?: string | string[];
   serializer?: serializeFunction;
+  name?: string; //name of serialized field
 };
 
 //This is where we store all the decorator data in the system
@@ -55,7 +57,10 @@ export function out(
       }
 
       let fields = scopeFieldMap.get(scope)!;
-      fields.set(propertyKey, { serializer: options.serializer });
+      fields.set(propertyKey, {
+        serializer: options.serializer,
+        name: options.name
+      });
     }
   };
 }
@@ -110,14 +115,11 @@ export function toJson(
       fieldSet.forEach((options, propName) => {
         if (target.hasOwnProperty(propName)) {
           let value: any = (target as any)[propName];
+          let fieldName = options.name || (propName as string);
           if (options.serializer) {
-            resp[propName as string] = options.serializer.call(
-              null,
-              value,
-              target
-            );
+            resp[fieldName] = options.serializer.call(null, value, target);
           } else {
-            resp[propName as string] = toJson(value);
+            resp[fieldName] = toJson(value);
           }
         }
       });

@@ -14,6 +14,7 @@ class BasicClass {
     this.multiField = "multi";
     this.auditField = "audit";
     this.nestedClass = new NestedClass();
+    this.customFieldName = "customField";
   }
 
   @out()
@@ -48,6 +49,9 @@ class BasicClass {
 
   @out()
   nestedClass: NestedClass;
+
+  @out({ name: "testCustomFieldName" })
+  customFieldName: string;
 }
 
 class NestedClass {
@@ -69,6 +73,7 @@ test("Basic class", () => {
   expect(result.objectField).toEqual({ a: true });
   expect(result.adminField).toBeUndefined();
   expect(result.customSerializer).toBe("custom.custom");
+  expect(result.testCustomFieldName).toBe("customField");
   expect(result.nestedClass).toEqual({ field1: "field1" });
   expect(result.adminField).toBeUndefined();
   expect(result.multiField).toBeUndefined();
