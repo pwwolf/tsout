@@ -4,6 +4,7 @@ class BasicClass {
   constructor() {
     this.boolField = true;
     this.stringField = "hello";
+    this.dateField = new Date();
     this.nonSerializedField = "blah";
     this.arrayPrimitiveField = ["a", "b", "c"];
     this.objectField = {
@@ -22,6 +23,9 @@ class BasicClass {
 
   @out()
   stringField: string;
+
+  @out()
+  dateField: Date;
 
   @out()
   arrayPrimitiveField: string[];
@@ -68,6 +72,7 @@ test("Basic class", () => {
   let result = toJson(basicClass);
   expect(result.boolField).toBe(true);
   expect(result.stringField).toBe("hello");
+  expect(result.dateField).toBe(basicClass.dateField.toISOString());
   expect(result.nonSerializedField).toBeUndefined();
   expect(result.arrayPrimitiveField).toEqual(["a", "b", "c"]);
   expect(result.objectField).toEqual({ a: true });

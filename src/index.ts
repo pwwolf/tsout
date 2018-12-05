@@ -77,6 +77,10 @@ export function toJson(
     return target;
   }
 
+  if (target instanceof Date) {
+    return target.toISOString();
+  }
+
   if (Array.isArray(target)) {
     let array: any[] = target;
     return array.map(element => toJson(element));
