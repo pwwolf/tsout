@@ -13,6 +13,7 @@ type ScopeFieldMap = Map<
     {
       serializer?: serializeFunction;
       name?: string;
+      flatten?: boolean;
     }
   >
 >;
@@ -21,6 +22,7 @@ type ResponseOptions = {
   scope?: string | string[];
   serializer?: serializeFunction;
   name?: string; //name of serialized field
+  flatten?: boolean;
 };
 
 //This is where we store all the decorator data in the system
@@ -59,6 +61,7 @@ export function out(
       let fields = scopeFieldMap.get(scope)!;
       fields.set(propertyKey, {
         serializer: options.serializer,
+        flatten: options.flatten,
         name: options.name
       });
     }
@@ -120,10 +123,24 @@ export function toJson(
         if (target.hasOwnProperty(propName)) {
           let value: any = (target as any)[propName];
           let fieldName = options.name || (propName as string);
+          let obj;
           if (options.serializer) {
-            resp[fieldName] = options.serializer.call(null, value, target);
+            obj = options.serializer.call(null, value, target);
           } else {
-            resp[fieldName] = toJson(value);
+            obj = toJson(value);
+          }
+
+          if (options.flatten) {
+            if (typeof obj !== "object") {
+              resp[fieldName] = obj;
+              console.warn("Cannot flatten non-object");
+            } else {
+              for (let key of Object.keys(obj)) {
+                resp[key] = obj[key];
+              }
+            }
+          } else {
+            resp[fieldName] = obj;
           }
         }
       });

@@ -6,23 +6,22 @@ Decorators are used to control which fields are serialized and how they are seri
 It shares some similarities to libraries such as [serializr](https://github.com/mobxjs/serializr).
 
 ## Use Cases
+
 The specific use case this library was created to solve was to take [TypeORM](https://github.com/typeorm/typeorm) entities
 and write them has JSON responses in a REST API.
 
 Some fields on the entity are considered public, and some are only intended to be visible to admin users.
-A *scope* can be set on the field to control when that field is serialized.
+A _scope_ can be set on the field to control when that field is serialized.
 
 ### Example:
 
 ```ts
 class MyEntity {
+  @out()
+  publicField: string;
 
-    @out()
-    publicField: string;
-    
-    @out({scope: 'admin'})
-    privateField: string;
-
+  @out({ scope: "admin" })
+  privateField: string;
 }
 
 const myEntity = new MyEntity();
@@ -31,7 +30,6 @@ myEntity.privateField = "bar";
 
 //Serialize to default scope -- skips admin-scoped fields
 const result = toJson(myEntity); // {publicField: 'foo'}
-
 ```
 
 ### Scopes
@@ -40,11 +38,13 @@ By default every field belongs to the 'default' scope.
 During serialization one or more scopes can be specified
 
 ```ts
-result = toJson(myEntity, 'admin')
+result = toJson(myEntity, "admin");
 ```
+
 or
+
 ```ts
-result = toJson(myEntity, ['admin', 'audit']);
+result = toJson(myEntity, ["admin", "audit"]);
 ```
 
 However, default-scoped fields are always included.
@@ -58,9 +58,11 @@ Additionally, multiple scopes can be declared in the decorator.
 ```
 
 ### Custom serializers
+
 A custom serializer function can be specified to customize the resulting value.
 
 The function receives these parameters:
+
 1. The current value of the field being serialized
 2. The object being serialized
 
@@ -74,10 +76,21 @@ The function receives these parameters:
 ```
 
 ### Custom field name
-The name of the serialized field can be changed using the *name* option.
+
+The name of the serialized field can be changed using the _name_ option.
 
 ```ts
 
   @out({ name: 'userName' })
   name: string;
+```
+
+### Flattening
+
+If a field serializes to an object with nested fields, the content of that object can be flattened by specifying the flatten flag.
+In this case, the field name is ignored because the contents of the object are directly used rather than being nested.
+
+```ts
+  @out({ flatten: true })
+  nestedObject: any;
 ```
