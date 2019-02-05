@@ -15,6 +15,7 @@ class BasicClass {
     this.multiField = "multi";
     this.auditField = "audit";
     this.nestedClass = new NestedClass();
+    this.nestedClass2 = new NestedClass2();
     this.customFieldName = "customField";
     this.nestedClassCustomSerializer = new NestedClass();
     this.flattenedField = {};
@@ -67,6 +68,9 @@ class BasicClass {
   @out()
   nestedClass: NestedClass;
 
+  @out({ scope: "nested" })
+  nestedClass2: NestedClass2;
+
   @out({
     serializer: val => {
       return val.field1;
@@ -84,6 +88,15 @@ class NestedClass {
   }
 
   @out()
+  field1: string;
+}
+
+class NestedClass2 {
+  constructor() {
+    this.field1 = "field1nested";
+  }
+
+  @out({ scope: "nested" })
   field1: string;
 }
 
@@ -105,6 +118,7 @@ test("Basic class", () => {
   expect(result.nestedClassCustomSerializer).toBe("field1");
   expect(result.flatA).toBe("A");
   expect(result.flatB).toBe("B");
+  expect(result.nestedClass2).toBeUndefined();
 
   //Test different scopes
   let adminFields = toJson(basicClass, "admin");
@@ -125,4 +139,9 @@ test("Basic class", () => {
   expect(multiFields.auditField).toBe("audit");
   expect(multiFields.multiField).toBe("multi");
   expect(multiFields.adminField).toBe("admin");
+
+  //Test nested scopes
+  let nestedFields = toJson(basicClass, "nested");
+  expect(nestedFields.nestedClass2).toBeDefined();
+  expect(nestedFields.nestedClass2.field1).toBe("field1nested");
 });

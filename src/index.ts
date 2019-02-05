@@ -86,7 +86,7 @@ export function toJson(
 
   if (Array.isArray(target)) {
     let array: any[] = target;
-    return array.map(element => toJson(element));
+    return array.map(element => toJson(element, scope));
   }
 
   let resp: { [key: string]: any } = {};
@@ -127,7 +127,7 @@ export function toJson(
           if (options.serializer) {
             obj = options.serializer.call(null, value, target);
           } else {
-            obj = toJson(value);
+            obj = toJson(value, scope);
           }
 
           if (options.flatten) {
