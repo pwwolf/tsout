@@ -1,6 +1,6 @@
 {
   "name": "tsout",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A TypeScript serialization library",
   "repository": {
     "type": "git",
